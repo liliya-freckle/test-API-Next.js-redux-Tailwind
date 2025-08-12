@@ -6,12 +6,16 @@ interface ProductsState {
   items: Product[];
   loading: boolean;
   error: string | null;
+  filter: "all" | "favorites";
+  search: string;
 }
 
 const initialState: ProductsState = {
   items: [],
   loading: false,
   error: null,
+  filter: "all",
+  search: "",
 };
 
 export const fetchProducts = createAsyncThunk<Product[]>(
@@ -35,6 +39,12 @@ const productsSlice = createSlice({
     addProduct(state, action: PayloadAction<Product>) {
       state.items.push(action.payload);
     },
+    setFilter(state, action: PayloadAction<"all" | "favorites">) {
+      state.filter = action.payload;
+    },
+    setSearch(state, action: PayloadAction<string>) {
+      state.search = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -53,5 +63,6 @@ const productsSlice = createSlice({
   },
 });
 
-export const { toggleLike, deleteProduct, addProduct } = productsSlice.actions;
+export const { toggleLike, deleteProduct, addProduct, setFilter, setSearch } =
+  productsSlice.actions;
 export default productsSlice.reducer;

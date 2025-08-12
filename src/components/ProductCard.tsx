@@ -1,8 +1,8 @@
 "use client";
 
-import { Product } from "@/features/products/types";
+import { Product } from "@/components/features/types";
 import { useDispatch } from "react-redux";
-import { toggleLike, deleteProduct } from "@/features/products/productsSlice";
+import { toggleLike, deleteProduct } from "@/components/features/productsSlice";
 import { AppDispatch } from "@/app/store";
 import { useRouter } from "next/navigation";
 import { Heart, Trash } from "lucide-react";

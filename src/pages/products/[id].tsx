@@ -1,12 +1,22 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "@/app/store";
+import { toggleLike } from "@/components/features/productsSlice";
+import { Heart } from "lucide-react";
 
 export default function ProductDetail() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params?.id;
+
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+
+  if (!id) {
+    return <p>Загрузка...</p>; // или спиннер, пока параметр не получен
+  }
+
   const product = useSelector((state: RootState) =>
     state.products.items.find((p) => p.id === Number(id))
   );
@@ -14,18 +24,39 @@ export default function ProductDetail() {
   if (!product) return <p>Продукт не найден</p>;
 
   return (
-    <div>
-      <button onClick={() => router.push("/products")} className="mb-4">
-        Назад
+    <div className="max-w-3xl mx-auto p-6">
+      <button
+        onClick={() => router.push("/products")}
+        className="mb-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+      >
+        Назад к списку
       </button>
-      <img
-        src={product.image}
-        alt={product.title}
-        className="h-60 object-contain"
-      />
-      <h1 className="text-2xl font-bold">{product.title}</h1>
-      <p>{product.description}</p>
-      <p className="font-bold">${product.price}</p>
+
+      <div className="flex flex-col md:flex-row gap-6">
+        <img
+          src={product.image}
+          alt={product.title}
+          className="h-64 object-contain mx-auto md:mx-0"
+        />
+
+        <div className="flex flex-col justify-between">
+          <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
+          <p className="mb-4 text-gray-700">{product.description}</p>
+          <p className="text-xl font-semibold mb-4">${product.price}</p>
+
+          <button
+            onClick={() => dispatch(toggleLike(product.id))}
+            className={`flex items-center gap-2 px-4 py-2 rounded ${
+              product.liked
+                ? "bg-red-500 text-white"
+                : "bg-gray-200 text-gray-700"
+            } hover:brightness-90 transition`}
+          >
+            <Heart className="w-5 h-5" />
+            {product.liked ? "Убрать из избранного" : "Добавить в избранное"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
