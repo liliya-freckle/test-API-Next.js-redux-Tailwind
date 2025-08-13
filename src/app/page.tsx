@@ -2,14 +2,13 @@
 
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchProducts,
-  setFilter,
-  setSearch,
-} from "@/components/features/productsSlice";
+import { fetchProducts } from "@/components/features/productsSlice";
+import setSearch from "@/components/features/productsSlice";
+import setFilter from "@/components/features/productsSlice";
 import { RootState, AppDispatch } from "@/app/store";
 import ProductCard from "@/components/ProductCard";
 import { useDebounce } from "use-debounce";
+import Link from "next/link";
 
 export default function ProductsPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -60,6 +59,12 @@ export default function ProductsPage() {
           placeholder="Поиск..."
           className="border p-2 flex-1 rounded"
         />
+        <Link
+          href="/products/create-product"
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+        >
+          + Создать продукт
+        </Link>
       </div>
 
       {/* Список продуктов */}
