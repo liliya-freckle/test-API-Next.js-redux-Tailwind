@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "@/app/store";
 import { toggleLike } from "@/components/features/productsSlice";
 import { Heart } from "lucide-react";
+import Image from "next/image";
 
 export default function ProductDetail() {
   const params = useParams();
@@ -13,13 +14,13 @@ export default function ProductDetail() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
-  if (!id) {
-    return <p>Загрузка...</p>; // или спиннер, пока параметр не получен
-  }
-
   const product = useSelector((state: RootState) =>
     state.products.items.find((p) => p.id === Number(id))
   );
+
+  if (!id) {
+    return <p>Загрузка...</p>; // или спиннер, пока параметр не получен
+  }
 
   if (!product) return <p>Продукт не найден</p>;
 
@@ -33,9 +34,11 @@ export default function ProductDetail() {
       </button>
 
       <div className="flex flex-col md:flex-row gap-6">
-        <img
+        <Image
           src={product.image}
           alt={product.title}
+          width={256}
+          height={256}
           className="h-64 object-contain mx-auto md:mx-0"
         />
 
