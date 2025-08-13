@@ -4,18 +4,19 @@ import { fetchProductsAPI } from "./productsAPI";
 
 interface ProductsState {
   items: Product[];
-  status: "idle" | "loading" | "succeeded" | "failed";
+  loading: boolean;
   filter: "all" | "favorites";
   search: string;
 }
 
 const initialState: ProductsState = {
   items: [],
-  status: "idle",
+  loading: false,
   filter: "all",
   search: "",
 };
 
+// Асинхронный thunk для загрузки продуктов
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
@@ -47,18 +48,22 @@ const productsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state) => {
-        state.status = "loading";
+        state.loading = true;
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.items = action.payload;
+        state.loading = false;
+        state.items = action.payload.map((p: Product) => ({
+          ...p,
+          liked: false,
+        }));
       })
       .addCase(fetchProducts.rejected, (state) => {
-        state.status = "failed";
+        state.loading = false;
       });
   },
 });
 
 export const { addProduct, toggleLike, deleteProduct, setFilter, setSearch } =
   productsSlice.actions;
+
 export default productsSlice.reducer;
