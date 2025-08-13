@@ -37,7 +37,7 @@ export default function CreateProductPage() {
       })
     );
 
-    router.push("/products");
+    router.push("/");
   };
 
   return (

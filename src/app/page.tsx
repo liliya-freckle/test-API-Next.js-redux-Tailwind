@@ -60,7 +60,7 @@ export default function ProductsPage() {
           className="border p-2 flex-1 rounded"
         />
         <Link
-          href="/products/create-product"
+          href="/create-product"
           className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
         >
           + Создать продукт

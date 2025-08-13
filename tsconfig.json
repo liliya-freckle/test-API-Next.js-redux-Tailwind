@@ -27,8 +27,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/products/create-product",
-    "src/app/products/[id]"
+    "src/app/create-product",
+    "src/app/[id]"
   ],
   "exclude": ["node_modules"]
 }

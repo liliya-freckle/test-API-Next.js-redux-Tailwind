@@ -12,12 +12,14 @@ export default function ProductCard({ product }: { product: Product }) {
   const router = useRouter();
 
   return (
-    <div className="border p-4 rounded-md shadow-md flex flex-col">
+    <div
+      className="border p-4 rounded-md shadow-md flex flex-col"
+      onClick={() => router.push(`/${product.id}`)}
+    >
       <img
         src={product.image}
         alt={product.title}
         className="h-40 object-contain cursor-pointer"
-        onClick={() => router.push(`/products/${product.id}`)}
       />
       <h3 className="font-semibold mt-2 line-clamp-1">{product.title}</h3>
       <p className="text-sm text-gray-600 line-clamp-2">
@@ -28,11 +30,17 @@ export default function ProductCard({ product }: { product: Product }) {
         <div className="flex gap-2">
           <Heart
             className={`cursor-pointer ${product.liked ? "text-red-500" : ""}`}
-            onClick={() => dispatch(toggleLike(product.id))}
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch(toggleLike(product.id));
+            }}
           />
           <Trash
             className="cursor-pointer text-gray-500"
-            onClick={() => dispatch(deleteProduct(product.id))}
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch(deleteProduct(product.id));
+            }}
           />
         </div>
       </div>
