@@ -3,8 +3,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "@/components/features/productsSlice";
-import setSearch from "@/components/features/productsSlice";
-import setFilter from "@/components/features/productsSlice";
+import { setSearch } from "@/components/features/productsSlice";
+import { setFilter } from "@/components/features/productsSlice";
 import { RootState, AppDispatch } from "@/app/store";
 import ProductCard from "@/components/ProductCard";
 import { useDebounce } from "use-debounce";
