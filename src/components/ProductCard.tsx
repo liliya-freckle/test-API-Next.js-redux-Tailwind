@@ -14,20 +14,26 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <div
-      className="border p-4 rounded-md shadow-md flex flex-col"
+      className="border p-4 rounded-md shadow-md flex flex-col cursor-pointer"
       onClick={() => router.push(`/${product.id}`)}
     >
-      <Image
-        src={product.image}
-        alt={product.title}
-        width={160} // ширина изображения в пикселях
-        height={160}
-        className="object-contain cursor-pointer"
-      />
-      <h3 className="font-semibold mt-2 line-clamp-1">{product.title}</h3>
-      <p className="text-sm text-gray-600 line-clamp-2">
-        {product.description}
-      </p>
+      <div className="h-60 flex items-center justify-center">
+        <Image
+          src={product.image}
+          alt={product.title}
+          height={110}
+          width={140}
+          className="object-contain"
+        />
+      </div>
+
+      <div className="mt-2 flex-1">
+        <h3 className="font-semibold line-clamp-1">{product.title}</h3>
+        <p className="text-sm text-gray-600 line-clamp-2 mt-1">
+          {product.description}
+        </p>
+      </div>
+
       <div className="flex justify-between mt-2">
         <span className="font-bold">${product.price}</span>
         <div className="flex gap-2">
