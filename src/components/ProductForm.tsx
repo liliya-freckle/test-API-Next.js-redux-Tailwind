@@ -1,0 +1,77 @@
+"use client";
+
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/app/store";
+import { addProduct } from "@/components/features/productsSlice";
+import Input from "@/components/ui/Input";
+import Textarea from "@/components/ui/TextArea";
+import Button from "@/components/ui/Button";
+import { useRouter } from "next/navigation";
+
+export default function ProductForm() {
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!title.trim() || !price.trim() || !description.trim()) {
+      alert("Заполните все обязательные поля");
+      return;
+    }
+
+    dispatch(
+      addProduct({
+        id: Date.now(),
+        title,
+        price: parseFloat(price),
+        description,
+        image: image || "https://via.placeholder.com/150",
+        liked: false,
+      })
+    );
+
+    router.push("/");
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <Input
+        type="text"
+        placeholder="Название"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        required
+      />
+      <Input
+        type="number"
+        placeholder="Цена"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+        required
+      />
+      <Textarea
+        placeholder="Описание"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        required
+        rows={4}
+      />
+      <Input
+        type="url"
+        placeholder="URL картинки"
+        value={image}
+        onChange={(e) => setImage(e.target.value)}
+      />
+      <Button type="submit" variant="primary" className="w-full">
+        Создать
+      </Button>
+    </form>
+  );
+}

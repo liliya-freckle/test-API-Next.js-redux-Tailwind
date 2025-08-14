@@ -6,6 +6,7 @@ import { RootState, AppDispatch } from "@/app/store";
 import { toggleLike } from "@/components/features/productsSlice";
 import { Heart } from "lucide-react";
 import Image from "next/image";
+import { PackageX } from "lucide-react";
 
 export default function ProductDetail() {
   const params = useParams();
@@ -19,10 +20,37 @@ export default function ProductDetail() {
   );
 
   if (!id) {
-    return <p>Загрузка...</p>; // или спиннер, пока параметр не получен
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-pulse">
+          <Image
+            src="https://via.placeholder.com/150"
+            alt="loading"
+            width={96}
+            height={96}
+            className="rounded-full"
+          />
+        </div>
+      </div>
+    );
   }
 
-  if (!product) return <p>Продукт не найден</p>;
+  if (!product)
+    return (
+      <div className="flex flex-col items-center justify-center text-center py-16 text-gray-500">
+        <button
+          onClick={() => router.push("/")}
+          className="mb-8 px-4 py-2 cursor-pointer bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        >
+          Назад к списку
+        </button>
+        <PackageX size={48} className="mb-3 opacity-60" />
+        <p className="text-lg font-medium">Нет продуктов</p>
+        <p className="text-sm text-gray-400 mt-1">
+          Попробуйте изменить фильтры или добавить новый товар
+        </p>
+      </div>
+    );
 
   return (
     <div className="max-w-3xl mx-auto p-6">
