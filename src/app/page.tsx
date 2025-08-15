@@ -11,7 +11,7 @@ import { RootState, AppDispatch } from "@/app/store";
 import { useDebounce } from "use-debounce";
 import Link from "next/link";
 import Image from "next/image";
-import ProductList from "@/components/ProductList";
+import ProductList from "@/components/productList";
 
 export default function ProductsPage() {
   const dispatch = useDispatch<AppDispatch>();
